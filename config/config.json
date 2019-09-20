@@ -1,0 +1,11 @@
+{
+  "development": {
+    "db": "mongodb://localhost/assessment-dev"
+  },
+  "test": {
+    "db": "mongodb://localhost/assessment-test"
+  },
+  "production": {
+    "db": "mongodb://localhost/assessment-prod"
+  }
+}
