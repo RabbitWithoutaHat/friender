@@ -4,7 +4,11 @@ const UserSchema = new mongoose.Schema({
   login: String,
   password: String,
   title: String,
-  post: String,
+  content: String,
+  position: {
+    lat: Number,
+    lng: Number,
+  },
 });
 UserSchema.statics.getByLogin = async function (login) {
   return this.find({ login });

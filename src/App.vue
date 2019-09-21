@@ -1,10 +1,17 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link v-if="this.$store.state.isLogin" to="/signup"> Sign Up |</router-link>
-      <router-link v-if="this.$store.state.isLogin" to="/login"> Log in |</router-link>
-      <router-link  to="/logout"> Log Out</router-link>
+      <router-link v-if="this.$store.state.login" to="/new">New Case</router-link>
+      <span v-if="this.$store.state.login">|</span>
+      <router-link to="/map" v-if="this.$store.state.login">Map</router-link>
+      <span v-if="this.$store.state.login">|</span>
+      <router-link v-if="this.$store.state.isLogin" to="/signup">Sign Up</router-link>
+      <span v-if="!this.$store.state.login">|</span>
+      <router-link v-if="this.$store.state.isLogin" to="/login">Log in </router-link>
+      <router-link v-if="this.$store.state.login" to="/logout"> Log Out</router-link>
+      <div class="row">
+        <span class="login" v-if="this.$store.state.login"> &#11089;&#11089; {{this.$store.state.login}} &#11089;&#11089; </span>
+      </div>
     </div>
     <router-view/>
   </div>
@@ -19,11 +26,12 @@
   color: #2c3e50;
 }
 #nav {
+  font-weight: bold;
   padding: 30px;
 }
 
 #nav a {
-  font-weight: bold;
+
   color: #2c3e50;
   padding-left: 10px;
   padding-right: 10px;
@@ -31,5 +39,10 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+.login {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
 }
 </style>

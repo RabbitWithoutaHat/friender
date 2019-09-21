@@ -19,8 +19,12 @@ export default {
       password: '',
    }
 },
+async mounted () {
+      await this.onload();
+   },
+
 methods: {
-      ...mapMutations(["loginToggle"]),
+      ...mapMutations(["loginToggle", "currentLoccation"]),
       loginSubmit() {
          axios
         .post(
@@ -28,14 +32,29 @@ methods: {
           {
             login: this.login,
             password: this.password,
+            position: {
+              lat: this.$store.state.lat,
+              lng: this.$store.state.lng,
+              }
           },
           { withCredentials: true },
         )
         .then(res => {
-          this.loginToggle()
-          this.$router.push('/');
+
+          this.loginToggle(res.data.login)
+          this.$router.push('/new');
         })
     },
+    onload() {
+         let startPos;
+         const geoSuccess = (position) => {
+            startPos = position;
+            const lat = startPos.coords.latitude
+            const lng = startPos.coords.longitude
+            this.currentLoccation({lat,lng})
+         };
+            navigator.geolocation.getCurrentPosition(geoSuccess);
+      },
       },
 
    }

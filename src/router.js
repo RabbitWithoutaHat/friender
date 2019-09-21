@@ -14,6 +14,16 @@ export default new Router({
       component: Home,
     },
     {
+      path: '/map',
+      name: 'map',
+      component: () => import(/* webpackChunkName: "about" */ './components/Map.vue'),
+    },
+    {
+      path: '/new',
+      name: 'new',
+      component: () => import(/* webpackChunkName: "about" */ './components/NewCase.vue'),
+    },
+    {
       path: '/signup',
       name: 'signup',
       component: () => import(/* webpackChunkName: "about" */ './views/signup.vue'),
@@ -23,6 +33,7 @@ export default new Router({
       name: 'login',
       component: () => import(/* webpackChunkName: "about" */ './views/login.vue'),
     },
+
     {
       path: '/logout',
       name: 'logout',

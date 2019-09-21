@@ -3,7 +3,7 @@
     <!-- <div v-if="loggingIn" class="container-loading">
       <img src="/loading.gif" alt="Loading Icon">
     </div> -->
-    <form @submit.prevent="loginSubmit">
+    <form @submit.prevent="signupSubmit">
       <input type="text" placeholder="Login" v-model="login">
       <input type="password" placeholder="Password" v-model="password">
       <button  type="submit">Sign Up</button>
@@ -23,21 +23,26 @@ export default {
       }
    },
    methods: {
-      loginSubmit() {
+      signupSubmit() {
          axios.post(`http://localhost:3000/signup`, {
           login: this.login,
-          password: this.password
+          password: this.password,
+          title: '',
+          content: '',
+          position: {
+            lat: null,
+            lng: null,
+         }
       })
       .then( (response) => {
          const data = response.data
         if (response.data){
-           this.$router.push({ name: '/'})
+           this.$router.push('/')
            } else {
-              this.$router.push({ name: '/'})
+              this.$router.push('/')
            }
       })
       },
-
    }
 }
 </script>
