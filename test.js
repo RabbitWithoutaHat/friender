@@ -3,10 +3,9 @@ const path = require('path');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-// const FileStore = require('session-file-store')(session);
+const FileStore = require('session-file-store')(session);
 const logger = require('morgan');
 const mongoose = require('mongoose');
-const MongoStore = require('connect-mongo')(session);
 
 const app = express();
 const port = 3000;
@@ -21,7 +20,6 @@ app.use(cors(corsOptions));
 mongoose.connect('mongodb://localhost/friender', {
   useNewUrlParser: true,
 });
-const db = mongoose.connection;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,26 +31,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// const fileStoreOptions = {};
+const fileStoreOptions = {};
 app.use(
   session({
-    store: new MongoStore({
-      mongooseConnection: db,
-    }),
+    // store: new FileStore(fileStoreOptions),
     secret: 'keyboard cat',
-    resave: true,
-    saveUninitialized: false,
-    cookie: { expires: 600000 },
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60 * 60 * 1000 },
   }),
 );
 
-// const server = require('http').Server(app);
-// const io = require('socket.io')(server);
-// const users = require('./models/User')();
-const indexRouter = require('./routes/index');
-
-app.use('/', indexRouter);
-
+// catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
 });
@@ -68,4 +58,38 @@ app.use((err, req, res, next) => {
   res.send('error');
 });
 
+// const server = require('http').Server(app);
+// const io = require('socket.io')(server);
+const indexRouter = require('./routes/index');
+
+// io.on('connection', (socket) => {
+//   console.log('connection on');
+
+//   socket.emit('connections', Object.keys(io.sockets.connected).length);
+
+//   socket.on('disconnect', () => {
+//     console.log('A user disconnected');
+//   });
+
+//   socket.on('chat-message', (data) => {
+//     socket.broadcast.emit('chat-message', data);
+//   });
+
+//   socket.on('typing', (data) => {
+//     socket.broadcast.emit('typing', data);
+//   });
+
+//   socket.on('stopTyping', () => {
+//     socket.broadcast.emit('stopTyping');
+//   });
+
+//   socket.on('joined', (data) => {
+//     socket.broadcast.emit('joined', data);
+//   });
+
+//   socket.on('leave', (data) => {
+//     socket.broadcast.emit('leave', data);
+//   });
+// });
+app.use('/', indexRouter);
 app.listen(port, () => console.log(`App listening on port ${port}!`));

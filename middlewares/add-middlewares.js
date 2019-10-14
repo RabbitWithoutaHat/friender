@@ -1,6 +1,8 @@
 const express = require('express');
+
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+// const passportLocalMongoose = require('passport-local-mongoose');
 
 // Usage of FileStore leads to problem of not login in from the first time?
 
@@ -8,6 +10,7 @@ const bcrypt = require('bcrypt');
 // const connection = require('../models/connection');
 const User = require('../models/User');
 
+// passport.use(User.createStrategy());
 function addMiddlewares(router) {
   // configure passport.js to use the local strategy
   passport.use(

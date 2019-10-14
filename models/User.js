@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+// const passportLocalMongoose = require('passport-local-mongoose');
 
 const UserSchema = new mongoose.Schema({
   login: String,
@@ -13,5 +14,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.statics.getByLogin = async function (login) {
   return this.find({ login });
 };
+
+// UserSchema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('User', UserSchema);

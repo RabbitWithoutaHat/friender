@@ -10,6 +10,7 @@ export default new Vuex.Store({
     isLogin: true,
     lat: '',
     lng: '',
+    user: {},
   },
   mutations: {
     loginToggle(state, login) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     currentLoccation(state, { lat, lng }) {
       state.lat = lat;
       state.lng = lng;
+    },
+    updateUser(state, user) {
+      state.user = user;
     },
   },
   actions: {},

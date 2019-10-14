@@ -11,11 +11,11 @@
 import Map from '@/components/Map.vue'
 import NewCase from '@/components/NewCase.vue'
 import login from '@/views/login.vue'
-
+import axios from 'axios'
 export default {
   components: {
     Map, login
-  }
+  },
 }
 </script>
 

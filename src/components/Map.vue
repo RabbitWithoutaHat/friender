@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     getUsersInfo(){
-      axios.post(`http://localhost:3000/usersPosition`)
+      axios.post(`http://localhost:3000/usersPosition`, { withCredentials: true })
           .then((response) => {
             console.log(response.data);
 

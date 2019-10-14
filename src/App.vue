@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <div id="nav">
+      <!-- <router-link v-if="this.$store.state.login" to="/chat">Chat</router-link> -->
+      <!-- <span v-if="this.$store.state.login">|</span> -->
       <router-link v-if="this.$store.state.login" to="/new">New Case</router-link>
       <span v-if="this.$store.state.login">|</span>
       <router-link to="/map" v-if="this.$store.state.login">Map</router-link>
@@ -16,6 +18,23 @@
     <router-view/>
   </div>
 </template>
+
+<script>
+import { mapMutations } from "vuex";
+import axios from 'axios'
+export default {
+
+  // mounted() {
+  //   axios.get('http://localhost:3000/isAuthorize', { withCredentials: true }).then(res => {
+  //     this.updateUser(res.data)
+  //         this.$router.push(`/${$route.params.id}}`);
+  //       })
+  // },
+  methods: {
+    ...mapMutations(["updateUser"]),
+  }
+}
+</script>
 
 <style>
 #app {

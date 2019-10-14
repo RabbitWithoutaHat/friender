@@ -5,16 +5,18 @@ const User = require('./../models/User');
 // const homePageWithNotification = require('../helpers/homePageWithNotification');
 // const notifications = require('../constants/notification-types');
 const addMiddlewares = require('../middlewares/add-middlewares');
-const { getUserLogin } = require('../helpers/reqHelpers');
+// const { getUserLogin } = require('../helpers/reqHelpers');
 // const { saltRounds } = require('../constants/other-constants');
+const { sessionChecker } = require('../middlewares/auth');
 
 const router = express.Router();
 addMiddlewares(router);
 
 // GET login form
-router.get('/login', (req, res) => {
-  res.send('true');
-});
+// router.get('/isAuthorize', sessionChecker, (req, res) => {
+//   console.log(req.user);
+//   res.send(req.user);
+// });
 
 // POST login
 router.post('/login', async (req, res, next) => {
@@ -72,28 +74,18 @@ router.post('/usersPosition', async (req, res) => {
   usersArray.forEach((user) => {
     usersPosition.push({ position: user.position, content: user.content, title: user.title });
   });
-  console.log(usersPosition);
+  console.log(usersArray);
 
   res.send(usersPosition);
 });
 
-router.post('/new', async (req, res, next) => {
+router.post('/new', sessionChecker, async (req, res, next) => {
   const { title, content } = req.body;
   console.log(req.user.login);
   // console.log(req.body);
   await User.update({ _id: req.user.id }, { $set: { title, content } });
 
   return res.send(req.user);
-});
-
-// GET home page
-router.get('/', async (req, res) => {
-  const { error, message } = req.query;
-  res.send({
-    currentUser: getUserLogin(req),
-    error,
-    message,
-  });
 });
 
 module.exports = router;
